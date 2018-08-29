@@ -1,14 +1,30 @@
-import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react'
+import { StyleSheet, Text, ScrollView } from 'react-native'
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware } from 'redux'
+import createSagaMiddleware from 'redux-saga'
+import logger from 'redux-logger'
+
+import { reducer } from './reducer'
+import { fetchTasks } from './sagas'
+import { fetchTalks } from './sagas'
+
+// Create Redux store and start long polling in the background.
+const sagaMiddleware = createSagaMiddleware()
+const store = createStore(
+  reducer,
+  applyMiddleware(sagaMiddleware, logger)
+)
+sagaMiddleware.run(fetchTalks)
 
 export default class App extends React.Component<{}> {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.ts to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
+      <Provider store={ store }>
+        <ScrollView contentContainerStyle={styles.container}>
+          <Text>Hello</Text>
+        </ScrollView>
+      </Provider>
     );
   }
 }
