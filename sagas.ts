@@ -19,7 +19,7 @@ export function* fetchTalks() {
     let previoustag = ''
     while (true) {
         const { talks, tag, error } = yield call(fetchTalksApi, previoustag)
-        previoustag = tag
+        if (tag) previoustag = tag
         if (talks) yield put({ type: GET_TALKS_SUCCESS, talks })
         else {
             yield put({ type: GET_TALKS_FAIL, error })
