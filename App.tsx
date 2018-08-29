@@ -8,6 +8,7 @@ import logger from 'redux-logger'
 import { reducer } from './reducer'
 import { fetchTalks } from './sagas'
 import { TalksContainer } from './components/TalksContainer'
+import { ErrorContainer } from './components/ErrorContainer'
 
 // Create Redux store and start long polling in the background.
 const sagaMiddleware = createSagaMiddleware()
@@ -22,6 +23,7 @@ export default class App extends React.Component<{}> {
     return (
       <Provider store={ store }>
         <ScrollView contentContainerStyle={styles.container}>
+          <ErrorContainer />
           <TalksContainer />
         </ScrollView>
       </Provider>
